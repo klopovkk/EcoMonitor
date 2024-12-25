@@ -13,6 +13,9 @@ namespace EcoMonitor.BLL.DTO
         public string Name { get; set; }
         public float FlowRate { get; set; }
         public float EmissionStandart { get; set; }
+        public bool isAirPollution { get; set; }
+        public float? TaxRateAw { get; set; }
+        public float? TaxRateP { get; set; }
         public string DangerRate { get; set; }
     }
 }

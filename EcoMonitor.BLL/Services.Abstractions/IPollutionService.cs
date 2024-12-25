@@ -9,7 +9,7 @@ public interface IPollutionService
 {
     public Task AddPollution(PollutionDTO pollution);
     public Task DeletePollution(int  id);
-    public ICollection<PollutionDTO> GetAllPollutions();
+    public IEnumerable<PollutionDTO> GetAllPollutions();
     public Task<PollutionDTO> GetPollutionById(int id);
     public  Task UpdatePollution(PollutionDTO pollution);
     public ICollection<PollutionDTO> GetSortedPollutions(int id, int sortArgument);

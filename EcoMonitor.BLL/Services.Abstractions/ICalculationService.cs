@@ -11,7 +11,7 @@ namespace EcoMonitor.BLL.Services.Abstractions
     {
         public Task AddCalculation(CalculationDTO calculation);
         public Task DeleteCalculation(int id);
-        public ICollection<CalculationDTO> GetAllCalculations();
+        public IEnumerable<CalculationDTO> GetAllCalculations();
         public Task<CalculationDTO> GetCalculationById(int id);
         public Task UpdateCalculation(CalculationDTO calculation);
         public ICollection<CalculationDTO> GetSortedСalculations(int id, int sortArgument);

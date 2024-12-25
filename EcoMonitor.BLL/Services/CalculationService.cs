@@ -24,10 +24,10 @@ public class CalculationService : ICalculationService
     {
         await _calculationRepository.Delete(id);
     }
-    public ICollection<CalculationDTO> GetAllCalculations()
+    public IEnumerable<CalculationDTO> GetAllCalculations()
     {
-        var calculations = _calculationRepository.Get().ToList();
-        var calculationDTOs = _mapper.Map<ICollection<CalculationDTO>>(calculations);
+        var calculations = _calculationRepository.Get();
+        var calculationDTOs = _mapper.Map<IEnumerable<CalculationDTO>>(calculations);
 
         return calculationDTOs;
     }

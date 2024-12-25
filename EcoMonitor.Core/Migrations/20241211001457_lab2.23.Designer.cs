@@ -3,6 +3,7 @@ using EcoMonitor.Core.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EcoMonitor.Core.Migrations
 {
     [DbContext(typeof(EcoContext))]
-    partial class EcoContextModelSnapshot : ModelSnapshot
+    [Migration("20241211001457_lab2.23")]
+    partial class lab223
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -166,53 +169,6 @@ namespace EcoMonitor.Core.Migrations
                     b.ToTable("Creations");
                 });
 
-            modelBuilder.Entity("EcoMonitor.Core.Models.Risk", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<float?>("Conc")
-                        .HasColumnType("real");
-
-                    b.Property<float?>("Cr")
-                        .HasColumnType("real");
-
-                    b.Property<float?>("Date")
-                        .HasColumnType("real");
-
-                    b.Property<int>("FactoryId")
-                        .HasColumnType("int");
-
-                    b.Property<float?>("Hq")
-                        .HasColumnType("real");
-
-                    b.Property<float?>("Ladd")
-                        .HasColumnType("real");
-
-                    b.Property<float?>("OnElectricity")
-                        .HasColumnType("real");
-
-                    b.Property<int>("PollutionId")
-                        .HasColumnType("int");
-
-                    b.Property<float?>("Rfc")
-                        .HasColumnType("real");
-
-                    b.Property<float?>("Sf")
-                        .HasColumnType("real");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FactoryId");
-
-                    b.HasIndex("PollutionId");
-
-                    b.ToTable("Risk");
-                });
-
             modelBuilder.Entity("EcoMonitor.Core.Models.TempStorage", b =>
                 {
                     b.Property<int>("Id")
@@ -273,25 +229,6 @@ namespace EcoMonitor.Core.Migrations
                     b.Navigation("Factory");
                 });
 
-            modelBuilder.Entity("EcoMonitor.Core.Models.Risk", b =>
-                {
-                    b.HasOne("EcoMonitor.Core.Models.Factories", "Factory")
-                        .WithMany("Risks")
-                        .HasForeignKey("FactoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("EcoMonitor.Core.Models.Pollutions", "Pollution")
-                        .WithMany("Risks")
-                        .HasForeignKey("PollutionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Factory");
-
-                    b.Navigation("Pollution");
-                });
-
             modelBuilder.Entity("EcoMonitor.Core.Models.TempStorage", b =>
                 {
                     b.HasOne("EcoMonitor.Core.Models.Factories", "Factory")
@@ -309,16 +246,12 @@ namespace EcoMonitor.Core.Migrations
 
                     b.Navigation("Creations");
 
-                    b.Navigation("Risks");
-
                     b.Navigation("Storages");
                 });
 
             modelBuilder.Entity("EcoMonitor.Core.Models.Pollutions", b =>
                 {
                     b.Navigation("Calculations");
-
-                    b.Navigation("Risks");
                 });
 #pragma warning restore 612, 618
         }

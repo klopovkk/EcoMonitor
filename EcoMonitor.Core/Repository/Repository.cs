@@ -28,6 +28,12 @@ public class Repository<T> : IRepository<T> where T : BaseEntity
     }
     public async Task Update(T entity, string updateBody = null)
     {
+        var trackedEntity = context.Set<T>().Local.FirstOrDefault(e => e.Id == entity.Id);
+        if (trackedEntity != null)
+        {
+            context.Entry(trackedEntity).State = EntityState.Detached;
+        }
+
         context.Set<T>().Attach(entity);
         context.Entry(entity).State = EntityState.Modified;
         await context.SaveChangesAsync().ConfigureAwait(false);

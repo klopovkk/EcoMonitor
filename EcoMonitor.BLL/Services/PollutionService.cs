@@ -75,10 +75,10 @@ public class PollutionService : IPollutionService
 
         return pollutionDTOs;
     }
-    public ICollection<PollutionDTO> GetAllPollutions()
+    public IEnumerable<PollutionDTO> GetAllPollutions()
     {
-        var pollutions = _pollutionRepository.Get().ToList();
-        var pollutionDTOs = _mapper.Map<ICollection<PollutionDTO>>(pollutions);
+        var pollutions = _pollutionRepository.Get();
+        var pollutionDTOs = _mapper.Map<IEnumerable<PollutionDTO>>(pollutions);
 
         return pollutionDTOs;
     }

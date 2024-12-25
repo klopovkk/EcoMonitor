@@ -11,6 +11,8 @@ public class Calculations : BaseEntity
 
     public int FactoryId { get; set; }
     public int PollutionId { get; set; }
+    public bool? isAir { get; set; }
+    public float? Tax { get; set; }
 
     [NotMapped] public Pollutions Pollution { get; set; }
 

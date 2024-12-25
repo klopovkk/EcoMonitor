@@ -19,6 +19,7 @@
     <li><a href="factory.html" class="active">Об'єкти</a></li>
     <li><a href="pollution.html">Забруднення</a></li>
     <li><a href="calculation.html">Розрахунки</a></li>
+    <li><a href="risk.html">Ризики</a></li>
   </ul>
 </nav>
 
@@ -27,7 +28,6 @@
     <h2>Об'єкти</h2>
     <p>Список об'єктів для моніторингу:</p>
 
-    <!-- New Request Section -->
     <div class="request-container">
       <select id="request-type">
         <option value="1">Назва підприємства</option>
@@ -38,7 +38,6 @@
       <button onclick="sendRequest()">Відправити запит</button>
     </div>
 
-    <!-- New Request Section -->
     <div class="request-container">
       <select id="request-type2">
         <option value="1">Назва підприємства</option>
@@ -51,7 +50,6 @@
       </select>
       <button onclick="sendSortRequest()">Відправити запит</button>
     </div>
-    <!-- Table -->
     <table>
       <thead>
       <tr>
@@ -63,11 +61,9 @@
       </tr>
       </thead>
       <tbody id="objects-table">
-      <!-- Данные будут добавляться динамически -->
       </tbody>
     </table>
 
-    <!-- Кнопка добавления нового объекта -->
     <button onclick="openModal('addModal')" style="margin-top: 20px;">Додати новий об'єкт</button>
   </div>
 </main>
@@ -96,7 +92,6 @@
   </div>
 </div>
 
-<!-- Модальное окно для редактирования объекта -->
 <div id="editModal" class="modal">
   <div class="modal-content">
     <span class="close" onclick="closeModal('editModal')">&times;</span>
@@ -130,7 +125,6 @@
 <script>
   const API_URL = "http://localhost:5002/api/Factory";
 
-  // Load objects and populate the table
   async function loadObjects() {
     try {
       const response = await fetch(API_URL);
@@ -144,7 +138,6 @@
     }
   }
 
-  // Function to send request
   async function sendRequest() {
     const requestType = document.getElementById("request-type").value; // id из select
     const requestContent = document.getElementById("request-content").value; // content из input
@@ -155,10 +148,8 @@
     }
 
     try {
-      // Формируем URL запроса
       const url = `${API_URL}/${requestType}/filtered?content=${requestContent}`;
 
-      // Отправляем GET-запрос
       const response = await fetch(url, {
         method: "GET",
         headers: {
@@ -170,7 +161,6 @@
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
 
-      // Обрабатываем результат
       const factories = await response.json();
       alert(`Результат запиту отримано: ${JSON.stringify(factories)}`);
       populateTable(factories); // Заполняем таблицу результатами
@@ -184,10 +174,8 @@
     const requestContent = document.getElementById("request-type3").value; // content из input
 
     try {
-      // Формируем URL запроса
       const url = `${API_URL}/${requestType}/factories/sorted/${encodeURIComponent(requestContent)}`;
 
-      // Отправляем GET-запрос
       const response = await fetch(url, {
         method: "GET",
         headers: {
@@ -199,19 +187,17 @@
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
 
-      // Обрабатываем результат
       const factories = await response.json();
       alert(`Результат запиту отримано: ${JSON.stringify(factories)}`);
-      populateTable(factories); // Заполняем таблицу результатами
+      populateTable(factories);
     } catch (error) {
       console.error("Ошибка отправки запиту:", error);
     }
   }
 
-  // Populate the table with filtered data
   function populateTable(factories) {
     const tableBody = document.getElementById("objects-table");
-    tableBody.innerHTML = ""; // Очистить таблицу
+    tableBody.innerHTML = "";
 
     factories.forEach(factory => {
       const row = document.createElement("tr");
@@ -259,7 +245,7 @@
       closeModal("addModal");
       loadObjects();
     } catch (error) {
-      console.error("Ошибка добавления объекта:", error);
+      console.error("Помилка добавления объекта:", error);
     }
   }
 
@@ -274,12 +260,11 @@
 
               openModal("editModal");
             })
-            .catch((error) => console.error("Ошибка загрузки объекта для редактирования:", error));
+            .catch((error) => console.error("Помилка загрузки объекта для редактирования:", error));
   }
 
   async function saveEditedObject() {
     try {
-      // Collect data from form fields
       const updatedObject = {
         id: parseInt(document.getElementById("editId").value.trim()),
         name: document.getElementById("editName").value.trim(),
@@ -287,7 +272,6 @@
         address: document.getElementById("editAddress").value.trim()
       };
 
-      // Send PUT request to update the object
       const response = await fetch("http://localhost:5002/api/Factory", {
         method: "PUT",
         headers: {
@@ -301,14 +285,12 @@
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
 
-      // Success message or further handling
       console.log("Object successfully updated.");
-      closeModal("editModal"); // Assume you have a function to close the modal
+      closeModal("editModal");
       alert("Object updated successfully!");
     } catch (error) {
-      // Handle errors gracefully
-      console.error("Ошибка сохранения изменений объекта:", error);
-      alert(`Ошибка: ${error.message}`);
+      console.error("Помилка сохранения изменений объекта:", error);
+      alert(`Помилка: ${error.message}`);
     }
   }
 
@@ -324,7 +306,7 @@
         alert(`Об'єкт з ID ${id} видалено.`);
         loadObjects();
       } catch (error) {
-        console.error("Ошибка удаления объекта:", error);
+        console.error("Помилка удаления объекта:", error);
       }
     }
   }

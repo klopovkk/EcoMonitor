@@ -23,7 +23,9 @@ builder.Services.AddDbContext<EcoContext>(options =>
 builder.Services.AddScoped<IRepository<Pollutions>, Repository<Pollutions>>();
 builder.Services.AddScoped<IRepository<Factories>, Repository<Factories>>();
 builder.Services.AddScoped<IRepository<Calculations>, Repository<Calculations>>();
+builder.Services.AddScoped<IRepository<Risk>, Repository<Risk>>();
 builder.Services.AddTransient<ICalculationService, CalculationService>();
+builder.Services.AddTransient<IRiskService, RiskService>();
 builder.Services.AddTransient<IFactoryService, FactoryService>();
 builder.Services.AddTransient<IPollutionService, PollutionService>();
 builder.Services.AddAutoMapper(typeof(ConfigurationMapper));
@@ -31,10 +33,10 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowSpecificOrigins", builder =>
     {
-        builder.WithOrigins("http://localhost:63342") // Укажите разрешённые источники
+        builder.WithOrigins("http://localhost:63342") 
             .AllowAnyHeader()
             .AllowAnyMethod()
-            .AllowCredentials(); // Если вы используете куки или аутентификацию
+            .AllowCredentials(); 
     });
 });
 builder.Services.Configure<RequestLocalizationOptions>(options =>
@@ -53,7 +55,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseCors("AllowSpecificOrigins"); // Включение политики CORS
+app.UseCors("AllowSpecificOrigins");  
 
 app.UseAuthorization();
 

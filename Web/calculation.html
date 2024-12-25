@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Об'єкти - Екологічний Моніторинг</title>
+    <title>Розрахунки - Екологічний Моніторинг</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -17,15 +17,16 @@
 <nav>
     <ul>
         <li><a href="factory.html" >Об'єкти</a></li>
-        <li><a href="pollution.html">Забруднювачі</a></li>
+        <li><a href="pollution.html">Забруднення</a></li>
         <li><a href="calculation.html" class="active">Розрахунки</a></li>
+        <li><a href="risk.html">Ризики</a></li>
     </ul>
 </nav>
 
 <main>
     <div class="content">
-        <h2>Об'єкти</h2>
-        <p>Список об'єктів для моніторингу:</p>
+        <h2>Розрахунки</h2>
+        <p>Список розрахунків для моніторингу:</p>
 
         <div class="request-container">
             <select id="request-type">
@@ -38,7 +39,6 @@
             <button onclick="sendRequest()">Відправити запит</button>
         </div>
 
-        <!-- New Request Section -->
         <div class="request-container">
             <select id="request-type2">
                 <option value="1">Загальні викиди</option>
@@ -53,7 +53,6 @@
             <button onclick="sendSortRequest()">Відправити запит</button>
         </div>
 
-        <!-- Таблица -->
         <table>
             <thead>
             <tr>
@@ -66,20 +65,17 @@
             </tr>
             </thead>
             <tbody id="objects-table">
-            <!-- Данные будут добавляться динамически -->
             </tbody>
         </table>
-        <!-- Кнопка добавления нового объекта -->
-        <button onclick="openModal('addModal')" style="margin-top: 20px;">Додати новий об'єкт</button>
+        <button onclick="openModal('addModal')" style="margin-top: 20px;">Додати новий розрахунок</button>
     </div>
 </main>
 
-<!-- Модальное окно для добавления объекта -->
 
 <div id="addModal" class="modal">
     <div class="modal-content">
         <span class="close" onclick="closeModal('addModal')">&times;</span>
-        <h2>Додати новий об'єкт</h2>
+        <h2>Додати новий Розрахунок</h2>
         <form id="addForm">
             <div class="form-group">
                 <label for="addGenEmission">Сумарні викиди:</label>
@@ -106,11 +102,10 @@
     </div>
 </div>
 
-<!-- Модальное окно для редактирования объекта -->
 <div id="editModal" class="modal">
     <div class="modal-content">
         <span class="close" onclick="closeModal('editModal')">&times;</span>
-        <h2>Редагувати об'єкт</h2>
+        <h2>Редагувати розрахунок</h2>
         <form id="editForm">
             <input type="hidden" id="editId">
 
@@ -155,10 +150,8 @@
         }
 
         try {
-            // Формируем URL запроса
             const url = `${API_URL}/${requestType}/filtered?content=${encodeURIComponent(requestContent)}`;
 
-            // Отправляем GET-запрос
             const response = await fetch(url, {
                 method: "GET",
                 headers: {
@@ -170,7 +163,6 @@
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
 
-            // Обрабатываем результат
             const factories = await response.json();
             alert(`Результат запиту отримано: ${JSON.stringify(factories)}`);
             populateTable(factories); // Заполняем таблицу результатами
@@ -179,7 +171,6 @@
         }
     }
 
-    // Загружаем данные при загрузке страницы
     document.addEventListener("DOMContentLoaded", loadObjects);
 
     async function loadObjects() {
@@ -199,10 +190,8 @@
         const requestContent = document.getElementById("request-type3").value; // content из input
 
         try {
-            // Формируем URL запроса
             const url = `${API_URL}/${requestType}/calculation/sorted/${requestContent}`;
 
-            // Отправляем GET-запрос
             const response = await fetch(url, {
                 method: "GET",
                 headers: {
@@ -214,19 +203,17 @@
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
 
-            // Обрабатываем результат
             const factories = await response.json();
             alert(`Результат запиту отримано: ${JSON.stringify(factories)}`);
-            populateTable(factories); // Заполняем таблицу результатами
+            populateTable(factories);
         } catch (error) {
             console.error("Ошибка отправки запиту:", error);
         }
     }
 
-    // Populate the table with filtered data
     function populateTable(calculations) {
         const tableBody = document.getElementById("objects-table");
-        tableBody.innerHTML = ""; // Очистить таблицу
+        tableBody.innerHTML = "";
 
         calculations.forEach(calculation => {
             const row = document.createElement("tr");
@@ -276,7 +263,7 @@
             closeModal("addModal");
             loadObjects();
         } catch (error) {
-            console.error("Ошибка добавления объекта:", error);
+            console.error("помилка додавання объекта:", error);
         }
     }
 
@@ -292,12 +279,11 @@
 
                 openModal("editModal");
             })
-            .catch((error) => console.error("Ошибка загрузки объекта для редактирования:", error));
+            .catch((error) => console.error("Помилка загрузки объекта для редактирования:", error));
     }
 
     async function saveEditedObject() {
         try{
-            // Collect data from form fields
             const updatedObject = {
                 id: document.getElementById("editId").value,
                 generalEmission: parseFloat(document.getElementById("editGeneralEmission").value.trim()),
@@ -306,7 +292,6 @@
                 pollutionId: parseInt(document.getElementById("editPollId").value.trim()),
             };
 
-            // Send PUT request to update the object
             const response = await fetch("http://localhost:5002/api/Calculation", {
                 method: "PUT",
                 headers: {
@@ -320,14 +305,12 @@
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
 
-            // Success message or further handling
             console.log("Object successfully updated.");
-            closeModal("editModal"); // Assume you have a function to close the modal
+            closeModal("editModal");
             alert("Object updated successfully!");
         } catch (error) {
-            // Handle errors gracefully
-            console.error("Ошибка сохранения изменений объекта:", error);
-            alert(`Ошибка: ${error.message}`);
+            console.error("Помилка сохранения изменений объекта:", error);
+            alert(`Помилка: ${error.message}`);
         }
     }
 
@@ -345,7 +328,7 @@
                 alert(`Об'єкт з ID ${id} видалено.`);
                 loadObjects();
             } catch (error) {
-                console.error("Ошибка удаления объекта:", error);
+                console.error("Помилка удаления объекта:", error);
             }
         }
     }

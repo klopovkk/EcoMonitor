@@ -14,5 +14,9 @@ namespace EcoMonitor.Core.Models
         public string Address { get; set; }
         public string Head { get; set; }
         [NotMapped] public ICollection<Calculations> Calculations { get; set; }
+        [NotMapped] public ICollection<TempStorage> Storages { get; set; }
+        [NotMapped] public ICollection<RadioCreation> Creations { get; set; }
+        [NotMapped] public ICollection<Risk> Risks { get; set; }
+
     }
 }

@@ -16,6 +16,7 @@ namespace EcoMonitor.BLL.Services
             CreateMap<Factories, FactoryDTO>().ReverseMap();
             CreateMap<Pollutions, PollutionDTO>().ReverseMap();
             CreateMap<Calculations, CalculationDTO>().ReverseMap();
+            CreateMap<Risk, RiskDTO>().ReverseMap();
         }
     }
 }
